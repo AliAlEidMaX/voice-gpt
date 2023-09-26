@@ -48,18 +48,18 @@ recognition.lang = "ar";
 
 </script>
 
-<template>
+<template dir="rtl">
   <div class="l-section">
 
     <img  src="https://das.sch.sa/templates/rt_supra/custom/images/tops/logo.png"/>
     <img  src="src/assets/logoND.png"/>
   </div>
   <div class="btn-section">
-    <button type="button" @click="runSpeechRecognition()">Ask question</button>
+    <button class="bg-[#ff3600] px-6 py-2 rounded-md text-xl text-slate-50 font-bold" type="button" @click="runSpeechRecognition()">اسألني عن المملكة العربية السعودية</button>
   </div>
   <div class="display-section">
       <div class="action" v-if="action">{{ action }}</div>
-      <div class="output" v-if="output"><b>Question</b>: {{ lastMessage }}</div>
+      <div dir="rtl" class="output " v-if="output"><b class="text-xl text-slate-50 font-bold" >السؤال</b> : {{ lastMessage }}</div>
   </div>
 
   <div class="c">
@@ -100,7 +100,7 @@ canvas {
   padding-left: 10%;
   padding-right: 10%;
 }
-button {
+.bb {
   padding: 8px 13px;
   border-radius: 5px;
   background-color: #ff3600;
