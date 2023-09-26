@@ -5,18 +5,9 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 const { OpenAI } = require("langchain/llms/openai");
 const { ChatOpenAI } = require("langchain/chat_models/openai");const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({ apiKey: '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' });
-const openai = new OpenAIApi(configuration);
 
-const llm = new OpenAI({
-    openAIApiKey: "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",
-    temperature: 0.9,
-  });
-  
-//   const chatModel = new ChatOpenAI( configuration, {    apiKey: "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",    temperature: 0.9,  }  );
-  
-  const text = "What would be a good company name for a company that makes colorful socks?";
-  
+
+require('dotenv').config()
  
 const AWS = require("aws-sdk");
 AWS.config.loadFromPath("awsCreds.json");
@@ -25,13 +16,21 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post('/api/text-to-audio-file', async (req, res) => {
+    const llm = new OpenAI({
+        temperature: 0.9,
+      });
+      
+      const chatModel = new ChatOpenAI(   );
+      
+      const text = "What would be a good company name for a company that makes colorful socks?";
+      
     const llmResult = await llm.predict(text);
     /*
       "Feetful of Fun"
     */
     console.log(llmResult);
-    // const chatModelResult = await chatModel.predict(text);
-    //   console.log(chatModelResult);
+    const chatModelResult = await chatModel.predict(text);
+      console.log(chatModelResult);
     /*
       "Socks O'Color"
     */
