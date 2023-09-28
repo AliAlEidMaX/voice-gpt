@@ -63,23 +63,23 @@ recognition.lang = "ar";
 <template >
   <div  dir="rtl" class="h-screen w-screen bg-[#00726c] flex  flex-col max-h-screen">
 
-    <div class="flex py-10 justify-between px-12 h-56 w-full">
+    <div class="flex justify-between w-full h-56 px-12 py-10">
       
-      <img  @click="t" class="h-full" src="src/assets/logoND.png"/>
+      <img @click="t" class="h-full" src="@/assets/logoND.png"/>   <img @click="das" class="h-full" src="https://das.sch.sa/templates/rt_supra/custom/images/tops/logo.png"/>
       <img @click="das" class="h-full" src="https://das.sch.sa/templates/rt_supra/custom/images/tops/logo.png"/>
     </div>
     <div class="flex justify-center">
       <button class="bg-[#ff3600] px-6 py-2 rounded-md text-xl text-slate-50 font-bold" type="button" @click="runSpeechRecognition()">اسألني عن المملكة العربية السعودية</button>
     </div>
-    <div class="flex flex-col mt-8 text-center justify-center items-center  space-y-8 text-xl text-slate-50 font-bold">
+    <div class="flex flex-col items-center justify-center mt-8 space-y-8 text-xl font-bold text-center text-slate-50">
       <div     :class="action == 'جاري تجهيز الإجابة' ? 'animate-pulse ' : 'light-theme'"
  >{{ action }}</div>
       <div   class="text-center " ><b class="" >السؤال</b> : {{ lastMessage }}</div>
     </div>
     
-    <div dir="ltr" class="flex-1 relative w-full">
+    <div dir="ltr" class="relative flex-1 w-full">
       <audio id="player" ref="player" :src="mySource" type="audio/mpeg" controls hidden></audio>
-      <canvas class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" ref="canvas" />
+      <canvas class="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2" ref="canvas" />
     </div>
   </div>
   </template>
