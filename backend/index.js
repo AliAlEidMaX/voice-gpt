@@ -5,49 +5,51 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 const { OpenAI } = require("langchain/llms/openai");
 const { ChatOpenAI } = require("langchain/chat_models/openai");const { Configuration, OpenAIApi } = require("openai");
+const { HumanMessage ,  SystemMessage} = require("langchain/schema");
 
 
 require('dotenv').config()
  
 const AWS = require("aws-sdk");
 AWS.config.loadFromPath("awsCreds.json");
-
+let x = 0
+x++
 app.use(bodyParser.json());
 app.use(cors());
-
+const messagesList = [new SystemMessage("أنت مساعد شخصي واسمك صقر ، مهمتك الرئيسية هي الإجابة عن أسئلة حول المملكة العربية السعودية وتاريخها، تمت برمجتك من قبل علي آل عيد المدرب الأكاديمي لقسم العلوم والرياضيات في مدارس الظهران الأهلية، أنت ستكون ضمن احتفال خاص باليوم الوطني وستتفاعل مع الحضور باللغة العربية فقط.")];
 app.post('/api/text-to-audio-file', async (req, res) => {
     const llm = new OpenAI({
         temperature: 0.9,
       });
+      console.log(x)
+      const chatModel = new ChatOpenAI( {modelName:"gpt-4"}  );
       
-      const chatModel = new ChatOpenAI(   );
       
-      const text = "What would be a good company name for a company that makes colorful socks?";
-      
-    const llmResult = await llm.predict(text);
+      messagesList.push(new HumanMessage(req.body.text));
     /*
       "Feetful of Fun"
     */
-    console.log(llmResult);
-    const chatModelResult = await chatModel.predict(text);
-      console.log(chatModelResult);
+   const chatModelResult = await chatModel.predictMessages(messagesList);
+   messagesList.push(chatModelResult);
+   console.log(chatModelResult.content);
+
+
     /*
       "Socks O'Color"
     */
-    let messagesList = req.body.text;
-    const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: messagesList,
-        max_tokens: 200
+    // const completion = await openai.createChatCompletion({
+    //     model: "gpt-3.5-turbo",
+    //     messages: messagesList,
+    //     max_tokens: 200
 
-    })
+    // })
 
     let num = (Math.random() * 100000000).toFixed(0);
-    messagesList.push(completion.data.choices[0].message)
+
     const polly = new AWS.Polly({ region: "eu-central-1" })
     const params = {
         OutputFormat: "mp3",
-        Text: completion.data.choices[0].message.content,
+        Text: chatModelResult.content,
         VoiceId: "Zayd",
         Engine: "neural"
     }
@@ -71,3 +73,4 @@ app.listen(4001, () => {
     console.log(`Server is ready at http://localhost:4001`);
 
 });
+
