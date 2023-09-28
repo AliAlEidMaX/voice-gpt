@@ -41,7 +41,7 @@ recognition.lang = "ar";
    
 
     try {
-      let res = await axios.post('nd93ai-git-master-alialeidmax.vercel.app/api/text-to-audio-file', {
+      let res = await axios.post('https://nd93ai.vercel.app//api/text-to-audio-file', {
         text: lastMessage.value
       })
 
